@@ -16,9 +16,9 @@
 'use strict';
 
 /**
- * Initializes the FriendlyEats app.
+ * Initializes the TeamBuilder app.
  */
-function FriendlyEats() {
+function TeamBuilder() {
   this.filters = {
     city: '',
     price: '',
@@ -39,9 +39,9 @@ function FriendlyEats() {
 }
 
 /**
- * Initializes the router for the FriendlyEats app.
+ * Initializes the router for the TeamBuilder app.
  */
-FriendlyEats.prototype.initRouter = function() {
+TeamBuilder.prototype.initRouter = function() {
   this.router = new Navigo();
 
   this.router
@@ -56,17 +56,17 @@ FriendlyEats.prototype.initRouter = function() {
       }
     })
     .on({
-      '/restaurants/*': () => {
+      '/persons/*': () => {
         let path = this.getCleanPath(document.location.pathname);
         const id = path.split('/')[2];
-        this.viewRestaurant(id);
+        this.viewperson(id);
       }
     })
     .resolve();
 
   firebase
     .firestore()
-    .collection('restaurants')
+    .collection('persons')
     .limit(1)
     .onSnapshot(snapshot => {
       if (snapshot.empty) {
@@ -75,7 +75,7 @@ FriendlyEats.prototype.initRouter = function() {
     });
 };
 
-FriendlyEats.prototype.getCleanPath = function(dirtyPath) {
+TeamBuilder.prototype.getCleanPath = function(dirtyPath) {
   if (dirtyPath.startsWith('/index.html')) {
     return dirtyPath.split('/').slice(1).join('/');
   } else {
@@ -83,15 +83,15 @@ FriendlyEats.prototype.getCleanPath = function(dirtyPath) {
   }
 };
 
-FriendlyEats.prototype.getFirebaseConfig = function() {
+TeamBuilder.prototype.getFirebaseConfig = function() {
   return firebase.app().options;
 };
 
-FriendlyEats.prototype.getRandomItem = function(arr) {
+TeamBuilder.prototype.getRandomItem = function(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
-FriendlyEats.prototype.data = {
+TeamBuilder.prototype.data = {
   words: [
     'Bar',
     'Fire',
@@ -191,5 +191,5 @@ FriendlyEats.prototype.data = {
 };
 
 window.onload = () => {
-  window.app = new FriendlyEats();
+  window.app = new TeamBuilder();
 };

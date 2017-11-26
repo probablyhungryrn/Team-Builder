@@ -15,18 +15,18 @@
  */
 'use strict';
 
-FriendlyEats.prototype.initTemplates = function() {
+TeamBuilder.prototype.initTemplates = function() {
   this.templates = {};
   document.querySelectorAll('.template').forEach(el => {
     this.templates[el.getAttribute('id')] = el;
   });
 };
 
-FriendlyEats.prototype.viewHome = function() {
-  this.getAllRestaurants();
+TeamBuilder.prototype.viewHome = function() {
+  this.getAllpersons();
 };
 
-FriendlyEats.prototype.viewList = function(filters, filter_description) {
+TeamBuilder.prototype.viewList = function(filters, filter_description) {
   if (!filter_description) {
     filter_description = 'any type of food with any price in any city.';
   }
@@ -71,11 +71,11 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
     }
     const data = doc.data();
     data['.id'] = doc.id;
-    data['go_to_restaurant'] = () => {
-      this.router.navigate(`/restaurants/${doc.id}`);
+    data['go_to_person'] = () => {
+      this.router.navigate(`/persons/${doc.id}`);
     };
 
-    const el = this.renderTemplate('restaurant-card', data);
+    const el = this.renderTemplate('person-card', data);
     el.querySelector('.rating').append(this.renderRating(data.avgRating));
     el.querySelector('.price').append(this.renderPrice(data.price));
 
@@ -83,14 +83,14 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
   };
 
   if (filters.city || filters.category || filters.price || filters.sort !== 'Rating' ) {
-    this.getFilteredRestaurants({
+    this.getFilteredpersons({
      city: filters.city || 'Any',
      category: filters.category || 'Any',
      price: filters.price || 'Any',
      sort: filters.sort 
     }, renderResults);
   } else {
-    this.getAllRestaurants(renderResults);
+    this.getAllpersons(renderResults);
   }
 
   const toolbar = mdc.toolbar.MDCToolbar.attachTo(document.querySelector('.mdc-toolbar'));
@@ -99,15 +99,15 @@ FriendlyEats.prototype.viewList = function(filters, filter_description) {
   mdc.autoInit();
 };
 
-FriendlyEats.prototype.viewSetup = function() {
+TeamBuilder.prototype.viewSetup = function() {
   const headerEl = this.renderTemplate('header-base', {
     hasSectionHeader: false
   });
 
   const config = this.getFirebaseConfig();
-  const noRestaurantsEl = this.renderTemplate('no-restaurants', config);
+  const nopersonsEl = this.renderTemplate('no-persons', config);
 
-  const button = noRestaurantsEl.querySelector('#add_mock_data');
+  const button = nopersonsEl.querySelector('#add_mock_data');
   let addingMockData = false;
 
   button.addEventListener('click', event => {
@@ -117,17 +117,17 @@ FriendlyEats.prototype.viewSetup = function() {
     event.target.style.opacity = '0.4';
     event.target.innerText = 'Please wait...';
 
-    this.addMockRestaurants().then(() => {
+    this.addMockpersons().then(() => {
       this.rerender();
     });
   });
 
   this.replaceElement(document.querySelector('.header'), headerEl);
-  this.replaceElement(document.querySelector('main'), noRestaurantsEl);
+  this.replaceElement(document.querySelector('main'), nopersonsEl);
 
   firebase
   .firestore()
-  .collection('restaurants')
+  .collection('persons')
   .limit(1)
   .onSnapshot(snapshot => {
     if (snapshot.size && !addingMockData) {
@@ -136,7 +136,7 @@ FriendlyEats.prototype.viewSetup = function() {
   });
 };
 
-FriendlyEats.prototype.initReviewDialog = function() {
+TeamBuilder.prototype.initReviewDialog = function() {
   const dialog = document.querySelector('#dialog-add-review');
   this.dialogs.add_review = new mdc.dialog.MDCDialog(dialog);
 
@@ -175,7 +175,7 @@ FriendlyEats.prototype.initReviewDialog = function() {
   });
 };
 
-FriendlyEats.prototype.initFilterDialog = function() {
+TeamBuilder.prototype.initFilterDialog = function() {
   // TODO: Reset filter dialog to init state on close.
   this.dialogs.filter = new mdc.dialog.MDCDialog(document.querySelector('#dialog-filter-all'));
 
@@ -244,13 +244,13 @@ FriendlyEats.prototype.initFilterDialog = function() {
   });
 };
 
-FriendlyEats.prototype.updateQuery = function(filters) {
+TeamBuilder.prototype.updateQuery = function(filters) {
   let query_description = '';
 
   if (filters.category !== '') {
     query_description += `${filters.category} places`;
   } else {
-    query_description += 'any restaurant';
+    query_description += 'any person';
   }
 
   if (filters.city !== '') {
@@ -274,9 +274,9 @@ FriendlyEats.prototype.updateQuery = function(filters) {
   this.viewList(filters, query_description);
 };
 
-FriendlyEats.prototype.viewRestaurant = function(id) {
+TeamBuilder.prototype.viewperson = function(id) {
   let sectionHeaderEl;
-  return this.getRestaurant(id)
+  return this.getperson(id)
     .then(doc => {
       const data = doc.data();
       const dialog =  this.dialogs.add_review;
@@ -285,7 +285,7 @@ FriendlyEats.prototype.viewRestaurant = function(id) {
         dialog.show();
       };
 
-      sectionHeaderEl = this.renderTemplate('restaurant-header', data);
+      sectionHeaderEl = this.renderTemplate('person-header', data);
       sectionHeaderEl
         .querySelector('.rating')
         .append(this.renderRating(data.avgRating));
@@ -332,7 +332,7 @@ FriendlyEats.prototype.viewRestaurant = function(id) {
     });
 };
 
-FriendlyEats.prototype.renderTemplate = function(id, data) {
+TeamBuilder.prototype.renderTemplate = function(id, data) {
   const template = this.templates[id];
   const el = template.cloneNode(true);
   el.removeAttribute('hidden');
@@ -340,7 +340,7 @@ FriendlyEats.prototype.renderTemplate = function(id, data) {
   return el;
 };
 
-FriendlyEats.prototype.render = function(el, data) {
+TeamBuilder.prototype.render = function(el, data) {
   if (!data) return;
 
   const modifiers = {
@@ -427,18 +427,18 @@ FriendlyEats.prototype.render = function(el, data) {
   });
 };
 
-FriendlyEats.prototype.useModifier = function(el, selector, modifier) {
+TeamBuilder.prototype.useModifier = function(el, selector, modifier) {
   el.querySelectorAll(`[${selector}]`).forEach(modifier);
 };
 
-FriendlyEats.prototype.getDeepItem = function(obj, path) {
+TeamBuilder.prototype.getDeepItem = function(obj, path) {
   path.split('/').forEach(chunk => {
     obj = obj[chunk];
   });
   return obj;
 };
 
-FriendlyEats.prototype.renderRating = function(rating) {
+TeamBuilder.prototype.renderRating = function(rating) {
   const el = this.renderTemplate('rating', {});
   for (let r = 0; r < 5; r += 1) {
     let star;
@@ -452,7 +452,7 @@ FriendlyEats.prototype.renderRating = function(rating) {
   return el;
 };
 
-FriendlyEats.prototype.renderPrice = function(price) {
+TeamBuilder.prototype.renderPrice = function(price) {
   const el = this.renderTemplate('price', {});
   for (let r = 0; r < price; r += 1) {
     el.append('$');
@@ -460,11 +460,11 @@ FriendlyEats.prototype.renderPrice = function(price) {
   return el;
 };
 
-FriendlyEats.prototype.replaceElement = function(parent, content) {
+TeamBuilder.prototype.replaceElement = function(parent, content) {
   parent.innerHTML = '';
   parent.append(content);
 };
 
-FriendlyEats.prototype.rerender = function() {
+TeamBuilder.prototype.rerender = function() {
   this.router.navigate(document.location.pathname + '?' + new Date().getTime());
 };

@@ -15,20 +15,20 @@
  */
 'use strict';
 
-FriendlyEats.prototype.addRestaurant = function(data) {
-  const collection = firebase.firestore().collection('restaurants');
+TeamBuilder.prototype.addPerson = function(data) {
+  const collection = firebase.firestore().collection('persons');
   return collection.add(data);
 };
 
-FriendlyEats.prototype.getAllRestaurants = function(render) {
+TeamBuilder.prototype.getAllPersons = function(render) {
   const query = firebase.firestore()
-      .collection('restaurants')
-      .orderBy('avgRating', 'desc')
+      .collection('persons')
+      .orderBy('name', 'asc')
       .limit(50);
   this.getDocumentsInQuery(query, render);
 };
 
-FriendlyEats.prototype.getDocumentsInQuery = function(query, render) {
+TeamBuilder.prototype.getDocumentsInQuery = function(query, render) {
   query.onSnapshot(snapshot => {
     if (!snapshot.size) return render();
 
@@ -40,18 +40,24 @@ FriendlyEats.prototype.getDocumentsInQuery = function(query, render) {
   });
 };
 
-FriendlyEats.prototype.getRestaurant = function(id) {
-  return firebase.firestore().collection('restaurants').doc(id).get();
+TeamBuilder.prototype.getperson = function(id) {
+  return firebase.firestore().collection('persons').doc(id).get();
 };
 
-FriendlyEats.prototype.getFilteredRestaurants = function(filters, render) {
-  let query = firebase.firestore().collection('restaurants');
+TeamBuilder.prototype.getFilteredpersons = function(filters, render) {
+  let query = firebase.firestore().collection('persons');
 
+  // if (filters.category !== 'Any') {
+  //   query = query.where('category', '==', filters.category);
+  // }
   if (filters.category !== 'Any') {
-    query = query.where('category', '==', filters.category);
+    for(let skill of filters.skills){
+      query = query.where('skills', '==', skill);
+    }
   }
 
-  if (filters.city !== 'Any') {
+  if (filters.skills !== 'Any') {
+    
     query = query.where('city', '==', filters.city);
   }
 
@@ -67,9 +73,9 @@ FriendlyEats.prototype.getFilteredRestaurants = function(filters, render) {
   this.getDocumentsInQuery(query, render);
 };
 
-FriendlyEats.prototype.addRating = function(restaurantID, rating) {
-  const collection = firebase.firestore().collection('restaurants');
-  const document = collection.doc(restaurantID);
+TeamBuilder.prototype.addRating = function(personID, rating) {
+  const collection = firebase.firestore().collection('persons');
+  const document = collection.doc(personID);
 
   return document.collection('ratings').add(rating).then(() => {
     return firebase.firestore().runTransaction(transaction => {
