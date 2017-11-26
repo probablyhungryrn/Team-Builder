@@ -113,16 +113,38 @@ TeamBuilder.prototype.getRandomItem = function(arr) {
 };
 
 TeamBuilder.prototype.data = {
-  words: [
-    'Bar',
-    'Fire',
-    'Grill',
-    'Drive Thru',
-    'Place',
-    'Best',
-    'Spot',
-    'Prime',
-    'Eatin\''
+  skills: [
+    'c++',
+    'java',
+    'javascript',
+    'firestore',
+    'nodejs'
+  ],
+  personName: [
+    "Jade" ,
+    "Morgan" ,
+    "Hortensia" ,
+    "Noreen" ,
+    "Art" ,
+    "Raisa" ,
+    "Altagracia" ,
+    "Lorinda" ,
+    "Luigi" ,
+    "Ned" ,
+    "Pilar" ,
+    "Tonda" ,
+    "Dolores" ,
+    "Sharda" ,
+    "Emely" ,
+    "Irina"
+  ],
+  ideas: [
+    'idea 1',
+    'saveTheWorld',
+    'idea 2'
+  ],
+  events: [
+    'event 1'
   ],
   cities: [
     'Albuquerque',
@@ -172,42 +194,6 @@ TeamBuilder.prototype.data = {
     'Tulsa',
     'Virginia Beach',
     'Washington'
-  ],
-  categories: [
-    'Brunch',
-    'Burgers',
-    'Coffee',
-    'Deli',
-    'Dim Sum',
-    'Indian',
-    'Italian',
-    'Mediterranean',
-    'Mexican',
-    'Pizza',
-    'Ramen',
-    'Sushi'
-  ],
-  ratings: [
-    {
-      rating: 1,
-      text: 'Would never eat here again!'
-    },
-    {
-      rating: 2,
-      text: 'Not my cup of tea.'
-    },
-    {
-      rating: 3,
-      text: 'Exactly okay :/'
-    },
-    {
-      rating: 4,
-      text: 'Actually pretty good, would recommend!'
-    },
-    {
-      rating: 5,
-      text: 'This is my favorite place. Literally.'
-    }
   ]
 };
 

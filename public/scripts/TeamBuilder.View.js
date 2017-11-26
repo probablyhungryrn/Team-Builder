@@ -23,7 +23,7 @@ TeamBuilder.prototype.initTemplates = function() {
 };
 
 TeamBuilder.prototype.viewHome = function() {
-  this.getAllpersons();
+  this.getAllPersons();
 };
 
 TeamBuilder.prototype.viewList = function(filters, filter_description) {
@@ -83,14 +83,14 @@ TeamBuilder.prototype.viewList = function(filters, filter_description) {
   };
 
   if (filters.city || filters.category || filters.price || filters.sort !== 'Rating' ) {
-    this.getFilteredpersons({
+    this.getFilteredPersons({
      city: filters.city || 'Any',
      category: filters.category || 'Any',
      price: filters.price || 'Any',
      sort: filters.sort 
     }, renderResults);
   } else {
-    this.getAllpersons(renderResults);
+    this.getAllPersons(renderResults);
   }
 
   const toolbar = mdc.toolbar.MDCToolbar.attachTo(document.querySelector('.mdc-toolbar'));
@@ -105,25 +105,25 @@ TeamBuilder.prototype.viewSetup = function() {
   });
 
   const config = this.getFirebaseConfig();
-  const nopersonsEl = this.renderTemplate('no-persons', config);
+  const noPersonsEl = this.renderTemplate('no-persons', config);
 
-  const button = nopersonsEl.querySelector('#add_mock_data');
+  const addMockData = noPersonsEl.querySelector('#add_mock_data');
   let addingMockData = false;
 
-  button.addEventListener('click', event => {
+  addMockData.addEventListener('click', event => {
     if (addingMockData) return;
     addingMockData = true;
 
     event.target.style.opacity = '0.4';
     event.target.innerText = 'Please wait...';
 
-    this.addMockpersons().then(() => {
+    this.addMockPersons().then(() => {
       this.rerender();
     });
   });
 
   this.replaceElement(document.querySelector('.header'), headerEl);
-  this.replaceElement(document.querySelector('main'), nopersonsEl);
+  this.replaceElement(document.querySelector('main'), noPersonsEl);
 
   firebase
   .firestore()
@@ -274,9 +274,9 @@ TeamBuilder.prototype.updateQuery = function(filters) {
   this.viewList(filters, query_description);
 };
 
-TeamBuilder.prototype.viewperson = function(id) {
+TeamBuilder.prototype.viewPerson = function(id) {
   let sectionHeaderEl;
-  return this.getperson(id)
+  return this.getPerson(id)
     .then(doc => {
       const data = doc.data();
       const dialog =  this.dialogs.add_review;
