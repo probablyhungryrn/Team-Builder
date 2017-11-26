@@ -10,12 +10,14 @@
   <script defer src="/__/firebase/4.6.2/firebase-app.js"></script>
   <!-- include only the Firebase features as you need -->
   <script defer src="/__/firebase/4.6.2/firebase-auth.js"></script>
-  <script defer src="/__/firebase/4.6.2/firebase-database.js"></script>
-  <script defer src="/__/firebase/4.6.2/firebase-messaging.js"></script>
-  <script defer src="/__/firebase/4.6.2/firebase-storage.js"></script>
+  <script defer src="/__/firebase/4.6.2/firebase-firestore.js"></script>
+  <!-- <script defer src="/__/firebase/4.6.2/firebase-messaging.js"></script> -->
+  <!-- <script defer src="/__/firebase/4.6.2/firebase-storage.js"></script> -->
   <!-- initialize the SDK after all desired features are loaded -->
   <script defer src="/__/firebase/init.js"></script>
   <!-- user scripts -->
+  <script src="//cdn.jsdelivr.net/npm/navigo@5.3.3/lib/navigo.min.js"></script>
+
   <script defer src="/scripts/utils.js"></script>
   <script defer src="/scripts/TeamBuilder.js"></script>
   <script defer src="/scripts/TeamBuilder.View.js"></script>
@@ -145,10 +147,21 @@
       <div id="section-header" data-fir-if="hasSectionHeader"></div>
     </header>
   </div>
+  <div hidden class="template" id="main-adjusted">
+    <div id="message-cards-container" class="mdc-layout-grid mdc-toolbar-fixed-adjust">
+      <div id="cards" class="mdc-layout-grid__inner"></div>
+    </div>
+  </div>
+
+  <div hidden class="template" id="main">
+    <div id="message-cards-container" class="mdc-layout-grid">
+      <div id="cards" class="mdc-layout-grid__inner"></div>
+    </div>
+  </div>
 
   <div hidden class="template" id="no-persons">
     <div id="guy-container" class="mdc-toolbar-fixed-adjust">
-      <img class="guy" src="/images/guy_fireats.png" />
+      <!-- <img class="guy" src="/images/guy_fireats.png" /> -->
       <div class="text">
         This app is connected to the Firebase project "
         <b data-fir-content="projectId"></b>".
@@ -165,7 +178,7 @@
 
   <div hidden class="template" id="no-ratings">
     <div id="guy-container" class="mdc-toolbar-fixed-adjust">
-      <img class="guy" src="/images/guy_fireats.png" />
+      <!-- <img class="guy" src="/images/guy_fireats.png" /> -->
       <div class="text">
         This person has no ratings.
         <br />
@@ -177,21 +190,34 @@
     </div>
   </div>
 
+  <div hidden class="template" id="filter-display">
+    <div id="filter" class="mdc-toolbar mdc-layout-grid">
+      <div id="show-filters">
+        <div id="active-filters">
+          <i class="material-icons">filter_list</i>
+          You're seeing
+          <b data-fir-content="filter_description"></b>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="load"></div>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
       // // The Firebase SDK is initialized and available here!
       //
       firebase.auth().onAuthStateChanged(user => { });
-      firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-      firebase.messaging().requestPermission().then(() => { });
-      firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+      // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+      // firebase.messaging().requestPermission().then(() => { });
+      // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
       //
       // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
 
       try {
         let app = firebase.app();
-        let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
+        let features = ['auth', 'firestore', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
         document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
 
       } catch (e) {

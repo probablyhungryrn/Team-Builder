@@ -46,11 +46,11 @@ TeamBuilder.prototype.getDocumentsInQuery = function(query, render) {
   });
 };
 
-TeamBuilder.prototype.getperson = function(id) {
+TeamBuilder.prototype.getPerson = function(id) {
   return firebase.firestore().collection('persons').doc(id).get();
 };
 
-TeamBuilder.prototype.getFilteredpersons = function(filters, render) {
+TeamBuilder.prototype.getFilteredPersons = function(filters, render) {
   let query = firebase.firestore().collection('persons');
 
   // if (filters.category !== 'Any') {

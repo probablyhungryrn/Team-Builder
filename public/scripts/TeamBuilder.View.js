@@ -247,11 +247,11 @@ TeamBuilder.prototype.initFilterDialog = function() {
 TeamBuilder.prototype.updateQuery = function(filters) {
   let query_description = '';
 
-  if (filters.category !== '') {
-    query_description += `${filters.category} places`;
-  } else {
-    query_description += 'any person';
-  }
+  // if (filters.category !== '') {
+  //   query_description += `${filters.category} places`;
+  // } else {
+  //   query_description += 'any person';
+  // }
 
   if (filters.city !== '') {
     query_description += ` in ${filters.city}`;
@@ -259,16 +259,16 @@ TeamBuilder.prototype.updateQuery = function(filters) {
     query_description += ' located anywhere';
   }
 
-  if (filters.price !== '') {
-    query_description += ` with a price of ${filters.price}`;
-  } else {
-    query_description += ' with any price';
-  }
+  // if (filters.price !== '') {
+  //   query_description += ` with a price of ${filters.price}`;
+  // } else {
+  //   query_description += ' with any price';
+  // }
 
   if (filters.sort === 'Rating') {
     query_description += ' sorted by rating';
-  } else if (filters.sort === 'Reviews') {
-    query_description += ' sorted by # of reviews';
+  } else{
+    query_description += ' sorted by time';
   }
 
   this.viewList(filters, query_description);
@@ -436,28 +436,6 @@ TeamBuilder.prototype.getDeepItem = function(obj, path) {
     obj = obj[chunk];
   });
   return obj;
-};
-
-TeamBuilder.prototype.renderRating = function(rating) {
-  const el = this.renderTemplate('rating', {});
-  for (let r = 0; r < 5; r += 1) {
-    let star;
-    if (r < Math.floor(rating)) {
-      star = this.renderTemplate('star-icon', {});
-    } else {
-      star = this.renderTemplate('star-border-icon', {});
-    }
-    el.append(star);
-  }
-  return el;
-};
-
-TeamBuilder.prototype.renderPrice = function(price) {
-  const el = this.renderTemplate('price', {});
-  for (let r = 0; r < price; r += 1) {
-    el.append('$');
-  }
-  return el;
 };
 
 TeamBuilder.prototype.replaceElement = function(parent, content) {

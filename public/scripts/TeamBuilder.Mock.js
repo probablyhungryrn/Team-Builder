@@ -26,8 +26,8 @@ TeamBuilder.prototype.addMockPersons = function() {
         this.getRandomItem(this.data.personName);
     let email = name.split(' ')[0] + '@someDomain.com';
     let skills = [];
-    skills.append(this.getRandomItem(this.data.skills));
-    skills.append(this.getRandomItem(this.data.skills));
+    skills.push(this.getRandomItem(this.data.skills));
+    skills.push(this.getRandomItem(this.data.skills));
 
     // let city = this.getRandomItem(this.data.cities);
     // let price = Math.floor(Math.random() * 4) + 1;
@@ -60,8 +60,8 @@ TeamBuilder.prototype.addMockIdeas = function() {
   for (let i = 0; i < 20; i++) {
     let name = this.getRandomItem(this.data.ideas) + '_' + 100 * Math.random();
     let skills = [];
-    skills.append(this.getRandomItem(this.data.skills));
-    skills.append(this.getRandomItem(this.data.skills));
+    skills.push(this.getRandomItem(this.data.skills));
+    skills.push(this.getRandomItem(this.data.skills));
     added_time = new Date();
 
     // TODO change this!!!

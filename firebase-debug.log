@@ -1,28 +1,28 @@
-[debug] [2017-11-26T15:06:16.118Z] ----------------------------------------------------------------------
-[debug] [2017-11-26T15:06:16.121Z] Command:       /home/darshana/.nvm/versions/node/v9.2.0/bin/node /usr/local/bin/firebase serve
-[debug] [2017-11-26T15:06:16.121Z] CLI Version:   3.15.3
-[debug] [2017-11-26T15:06:16.121Z] Platform:      linux
-[debug] [2017-11-26T15:06:16.121Z] Node Version:  v9.2.0
-[debug] [2017-11-26T15:06:16.121Z] Time:          Sun Nov 26 2017 16:06:16 GMT+0100 (CET)
-[debug] [2017-11-26T15:06:16.121Z] ----------------------------------------------------------------------
+[debug] [2017-11-26T15:24:51.668Z] ----------------------------------------------------------------------
+[debug] [2017-11-26T15:24:51.670Z] Command:       /home/darshana/.nvm/versions/node/v9.2.0/bin/node /usr/local/bin/firebase serve
+[debug] [2017-11-26T15:24:51.670Z] CLI Version:   3.15.3
+[debug] [2017-11-26T15:24:51.670Z] Platform:      linux
+[debug] [2017-11-26T15:24:51.670Z] Node Version:  v9.2.0
+[debug] [2017-11-26T15:24:51.670Z] Time:          Sun Nov 26 2017 16:24:51 GMT+0100 (CET)
+[debug] [2017-11-26T15:24:51.670Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2017-11-26T15:06:16.131Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2017-11-26T15:06:16.131Z] > authorizing via signed-in user
-[debug] [2017-11-26T15:06:16.133Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/teambuilder-a4faf  
- Sun Nov 26 2017 16:06:16 GMT+0100 (CET)
-[debug] [2017-11-26T15:06:16.801Z] <<< HTTP RESPONSE 200
-[debug] [2017-11-26T15:06:16.803Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/teambuilder-a4faf/tokens  
- Sun Nov 26 2017 16:06:16 GMT+0100 (CET)
-[debug] [2017-11-26T15:06:17.440Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-26T15:24:51.682Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-11-26T15:24:51.682Z] > authorizing via signed-in user
+[debug] [2017-11-26T15:24:51.684Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/teambuilder-a4faf  
+ Sun Nov 26 2017 16:24:51 GMT+0100 (CET)
+[debug] [2017-11-26T15:24:52.466Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-26T15:24:52.467Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/teambuilder-a4faf/tokens  
+ Sun Nov 26 2017 16:24:52 GMT+0100 (CET)
+[debug] [2017-11-26T15:24:53.156Z] <<< HTTP RESPONSE 200
 [info] 
 [info] === Serving from '/home/darshana/src/hackathons/gdc/Team-Builder'...
 [info] 
-[debug] [2017-11-26T15:06:17.446Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/teambuilder-a4faf  
- Sun Nov 26 2017 16:06:17 GMT+0100 (CET)
-[debug] [2017-11-26T15:06:18.234Z] <<< HTTP RESPONSE 200
-[debug] [2017-11-26T15:06:18.235Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/53465784048/clients/_:getWebAppConfig  
- Sun Nov 26 2017 16:06:18 GMT+0100 (CET)
-[debug] [2017-11-26T15:06:18.665Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-26T15:24:53.160Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/teambuilder-a4faf  
+ Sun Nov 26 2017 16:24:53 GMT+0100 (CET)
+[debug] [2017-11-26T15:24:53.909Z] <<< HTTP RESPONSE 200
+[debug] [2017-11-26T15:24:53.910Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/53465784048/clients/_:getWebAppConfig  
+ Sun Nov 26 2017 16:24:53 GMT+0100 (CET)
+[debug] [2017-11-26T15:24:54.860Z] <<< HTTP RESPONSE 200
 [info] i  hosting: Serving hosting files from: public
 [info] ✔  hosting: Local server: http://localhost:5000
 
