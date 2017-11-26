@@ -62,6 +62,27 @@ TeamBuilder.prototype.initRouter = function() {
         this.viewperson(id);
       }
     })
+    .on({
+      '/ideas/*': () => {
+        let path = this.getCleanPath(document.location.pathname);
+        const id = path.split('/')[2];
+        this.viewperson(id);
+      }
+    })
+    .on({
+      '/skills/*': () => {
+        let path = this.getCleanPath(document.location.pathname);
+        const id = path.split('/')[2];
+        this.viewperson(id);
+      }
+    })
+    .on({
+      '/events/*': () => {
+        let path = this.getCleanPath(document.location.pathname);
+        const id = path.split('/')[2];
+        this.viewperson(id);
+      }
+    })
     .resolve();
 
   firebase
