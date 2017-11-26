@@ -26,6 +26,18 @@ TeamBuilder.prototype.viewHome = function() {
   this.getAllPersons();
 };
 
+TeamBuilder.prototype.viewIdeas = function() {
+  this.getAllideas();
+};
+
+TeamBuilder.prototype.viewSkills = function() {
+  this.getAllskills();
+};
+
+TeamBuilder.prototype.viewEvents = function() {
+  this.getAllevents();
+};
+
 TeamBuilder.prototype.viewList = function(filters, filter_description) {
   if (!filter_description) {
     filter_description = 'any type of food with any price in any city.';
@@ -279,6 +291,26 @@ TeamBuilder.prototype.viewPerson = function(id) {
       const data = doc.data();
       const dialog =  this.dialogs.add_review;
 
+      data.show_add_review = () => {
+        dialog.show();
+      };
+TeamBuilder.prototype.viewidea = function(id) {
+  let sectionHeaderEl;
+  return this.getidea(id)
+    .then(doc => {
+      const data = doc.data();
+      const dialog =  this.dialogs.add_review;
+      
+      data.show_add_review = () => {
+        dialog.show();
+      };
+TeamBuilder.prototype.viewevent = function(id) {
+  let sectionHeaderEl;
+  return this.getevent(id)
+    .then(doc => {
+      const data = doc.data();
+      const dialog =  this.dialogs.add_review;
+      
       data.show_add_review = () => {
         dialog.show();
       };

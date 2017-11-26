@@ -62,21 +62,21 @@ TeamBuilder.prototype.initRouter = function() {
       '/ideas/*': () => {
         let path = this.getCleanPath(document.location.pathname);
         const id = path.split('/')[2];
-        this.viewperson(id);
+        this.viewidea(id);
       }
     })
     .on({
       '/skills/*': () => {
         let path = this.getCleanPath(document.location.pathname);
         const id = path.split('/')[2];
-        this.viewperson(id);
+        this.viewskill(id);
       }
     })
     .on({
       '/events/*': () => {
         let path = this.getCleanPath(document.location.pathname);
         const id = path.split('/')[2];
-        this.viewperson(id);
+        this.viewevent(id);
       }
     })
     .resolve();

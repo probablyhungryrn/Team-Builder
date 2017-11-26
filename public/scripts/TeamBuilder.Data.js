@@ -70,11 +70,6 @@ TeamBuilder.prototype.getFilteredPersons = function(filters, render) {
     query = query.where('price', '==', filters.price.length);
   }
 
-  if (filters.sort === 'Rating') {
-    query = query.orderBy('avgRating', 'desc');
-  } else if (filters.sort === 'Reviews') {
-  }
-
   this.getDocumentsInQuery(query, render);
 };
 
@@ -124,12 +119,103 @@ TeamBuilder.prototype.getFilteredIdeas = function(filters, render) {
     query = query.where("active", '==', true);
   }
 
-  if (filters.sort === 'Rating') {
-    query = query.orderBy('avgRating', 'desc');
-  } else {
-    query = query.orderBy('addedTime', 'desc').orderBy('name', 'asc');
+  this.getDocumentsInQuery(query, render);
+};
+
+// ==== EVENTS ====
+
+/**
+ * addEvent
+ * @param {*} data
+ */
+TeamBuilder.prototype.addEvent = function(data) {
+  const collection = firebase.firestore().collection('events');
+  return collection.add(data);
+};
+
+/**
+ * Returns Ideas
+ * @param {*} render
+ */
+TeamBuilder.prototype.getAllIdeas = function(render) {
+  const query = firebase.firestore()
+                    .collection('events')
+                    // .where(active, '==', true)
+                    .orderBy('addedTime', 'desc')
+                    .orderBy('name', 'asc')
+                    .limit(50);
+  this.getDocumentsInQuery(query, render);
+};
+
+TeamBuilder.prototype.getEvent = function(id) {
+  return firebase.firestore().collection('events').doc(id).get();
+};
+
+TeamBuilder.prototype.getFilteredEvents = function(filters, render) {
+  let query = firebase.firestore().collection('events');
+
+  if (filters.active !== false) {
+    filters.active = true;
   }
 
+  if (filters.category !== 'Any') {
+    for (let skill of filters.skills) {
+      query = query.where('skills', '==', skill);
+    }
+  }
+
+  if (filters.active === true) {
+    query = query.where("active", '==', true);
+  }
+
+  this.getDocumentsInQuery(query, render);
+};
+
+// ==== SKILLS  ====
+
+/**
+ * addSkill
+ * @param {*} data
+ */
+TeamBuilder.prototype.addSkill = function(data) {
+  const collection = firebase.firestore().collection('skills');
+  return collection.add(data);
+};
+
+/**
+ * Returns Skills
+ * @param {*} render
+ */
+TeamBuilder.prototype.getAllSkills = function(render) {
+  const query = firebase.firestore()
+                    .collection('skills')
+                    // .where(active, '==', true)
+                    .orderBy('name', 'asc')
+                    .limit(50);
+  this.getDocumentsInQuery(query, render);
+};
+
+TeamBuilder.prototype.getSkill = function(id) {
+  return firebase.firestore().collection('skills').doc(id).get();
+};
+
+TeamBuilder.prototype.getFilteredSkills = function(filters, render) {
+  let query = firebase.firestore().collection('skills');
+
+  if (filters.active !== false) {
+    filters.active = true;
+  }
+
+  if (filters.category !== 'Any') {
+    for (let skill of filters.skills) {
+      query = query.where('skills', '==', skill);
+    }
+  }
+
+  if (filters.active === true) {
+    query = query.where("active", '==', true);
+  }
+  
   this.getDocumentsInQuery(query, render);
 };
 
