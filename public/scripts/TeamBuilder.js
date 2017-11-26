@@ -27,7 +27,7 @@ function TeamBuilder() {
   firebase.auth().signInAnonymously().then(() => {
     this.initTemplates();
     this.initRouter();
-    this.initReviewDialog();
+    // this.initReviewDialog();
     this.initFilterDialog();
   }).catch(err => {
     console.log(err);

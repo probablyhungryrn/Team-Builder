@@ -83,14 +83,12 @@ TeamBuilder.prototype.viewList = function(filters, filter_description) {
   };
 
   if (filters.city || filters.category || filters.price || filters.sort !== 'Rating' ) {
-    this.getFilteredPersons({
+    this.getFilteredIdeas({
      city: filters.city || 'Any',
-     category: filters.category || 'Any',
-     price: filters.price || 'Any',
      sort: filters.sort 
     }, renderResults);
   } else {
-    this.getAllPersons(renderResults);
+    this.getAllIdeas(renderResults);
   }
 
   const toolbar = mdc.toolbar.MDCToolbar.attachTo(document.querySelector('.mdc-toolbar'));
@@ -136,44 +134,44 @@ TeamBuilder.prototype.viewSetup = function() {
   });
 };
 
-TeamBuilder.prototype.initReviewDialog = function() {
-  const dialog = document.querySelector('#dialog-add-review');
-  this.dialogs.add_review = new mdc.dialog.MDCDialog(dialog);
+// TeamBuilder.prototype.initReviewDialog = function() {
+//   const dialog = document.querySelector('#dialog-add-review');
+//   this.dialogs.add_review = new mdc.dialog.MDCDialog(dialog);
 
-  this.dialogs.add_review.listen('MDCDialog:accept', () => {
-    let pathname = this.getCleanPath(document.location.pathname);
-    let id = pathname.split('/')[2];
+//   this.dialogs.add_review.listen('MDCDialog:accept', () => {
+//     let pathname = this.getCleanPath(document.location.pathname);
+//     let id = pathname.split('/')[2];
 
-    this.addRating(id, {
-      rating,
-      text: dialog.querySelector('#text').value,
-      userName: 'Anonymous (Web)',
-      timestamp: new Date(),
-      userId: firebase.auth().currentUser.uid
-    }).then(() => {
-      this.rerender();
-    });
-  });
+//     this.addRating(id, {
+//       rating,
+//       text: dialog.querySelector('#text').value,
+//       userName: 'Anonymous (Web)',
+//       timestamp: new Date(),
+//       userId: firebase.auth().currentUser.uid
+//     }).then(() => {
+//       this.rerender();
+//     });
+//   });
 
-  let rating = 0;
+//   let rating = 0;
 
-  dialog.querySelectorAll('.star-input i').forEach(el => {
-    const rate = () => {
-      let after = false;
-      rating = 0;
-      [].slice.call(el.parentNode.children).forEach(child => {
-        if (!after) {
-          rating++;
-          child.innerText = 'star';
-        } else {
-          child.innerText = 'star_border';
-        }
-        after = after || child.isSameNode(el);
-      });
-    };
-    el.addEventListener('mouseover', rate);
-  });
-};
+//   dialog.querySelectorAll('.star-input i').forEach(el => {
+//     const rate = () => {
+//       let after = false;
+//       rating = 0;
+//       [].slice.call(el.parentNode.children).forEach(child => {
+//         if (!after) {
+//           rating++;
+//           child.innerText = 'star';
+//         } else {
+//           child.innerText = 'star_border';
+//         }
+//         after = after || child.isSameNode(el);
+//       });
+//     };
+//     el.addEventListener('mouseover', rate);
+//   });
+// };
 
 TeamBuilder.prototype.initFilterDialog = function() {
   // TODO: Reset filter dialog to init state on close.
