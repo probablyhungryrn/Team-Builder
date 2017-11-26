@@ -20,10 +20,6 @@
  */
 function TeamBuilder() {
   this.filters = {
-    city: '',
-    price: '',
-    category: '',
-    sort: 'Rating'
   };
 
   this.dialogs = {};
