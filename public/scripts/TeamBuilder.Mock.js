@@ -88,19 +88,3 @@ TeamBuilder.prototype.addMockIdeas = function() {
   return Promise.all(promises);
 };
 
-
-/**
- * Adds a set of mock Ratings to the given person.
- */
-TeamBuilder.prototype.addMockRatings = function(personID) {
-  const ratingPromises = [];
-  for (let r = 0; r < 5 * Math.random(); r++) {
-    const rating =
-        this.data.ratings[parseInt(this.data.ratings.length * Math.random())];
-    rating.userName = 'Bot (Web)';
-    rating.timestamp = new Date();
-    rating.userId = firebase.auth().currentUser.uid;
-    ratingPromises.push(this.addRating(personID, rating));
-  }
-  return Promise.all(ratingPromises);
-};
