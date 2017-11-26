@@ -15,6 +15,12 @@
  */
 'use strict';
 
+//==== PERSONS ====
+
+/**
+ * addPerson
+ * @param {*} data
+ */
 TeamBuilder.prototype.addPerson = function(data) {
   const collection = firebase.firestore().collection('persons');
   return collection.add(data);
@@ -22,9 +28,9 @@ TeamBuilder.prototype.addPerson = function(data) {
 
 TeamBuilder.prototype.getAllPersons = function(render) {
   const query = firebase.firestore()
-      .collection('persons')
-      .orderBy('name', 'asc')
-      .limit(50);
+                    .collection('persons')
+                    .orderBy('name', 'asc')
+                    .limit(50);
   this.getDocumentsInQuery(query, render);
 };
 
@@ -51,13 +57,12 @@ TeamBuilder.prototype.getFilteredpersons = function(filters, render) {
   //   query = query.where('category', '==', filters.category);
   // }
   if (filters.category !== 'Any') {
-    for(let skill of filters.skills){
+    for (let skill of filters.skills) {
       query = query.where('skills', '==', skill);
     }
   }
 
   if (filters.skills !== 'Any') {
-    
     query = query.where('city', '==', filters.city);
   }
 
@@ -73,24 +78,58 @@ TeamBuilder.prototype.getFilteredpersons = function(filters, render) {
   this.getDocumentsInQuery(query, render);
 };
 
-TeamBuilder.prototype.addRating = function(personID, rating) {
-  const collection = firebase.firestore().collection('persons');
-  const document = collection.doc(personID);
+// ==== IDEAS ====
 
-  return document.collection('ratings').add(rating).then(() => {
-    return firebase.firestore().runTransaction(transaction => {
-      return transaction.get(document).then(doc => {
-        const data = doc.data();
-
-        let newAverage =
-            (data.numRatings * data.avgRating + rating.rating) /
-            (data.numRatings + 1);
-
-        return transaction.update(document, {
-          numRatings: data.numRatings + 1,
-          avgRating: newAverage
-        });
-      });
-    });
-  });
+/**
+ * addIdea
+ * @param {*} data
+ */
+TeamBuilder.prototype.addIdea = function(data) {
+  const collection = firebase.firestore().collection('ideas');
+  return collection.add(data);
 };
+
+/**
+ * Returns Ideas
+ * @param {*} render
+ */
+TeamBuilder.prototype.getAllIdeas = function(render) {
+  const query = firebase.firestore()
+                    .collection('ideas')
+                    // .where(active, '==', true)
+                    .orderBy('addedTime', 'desc')
+                    .orderBy('name', 'asc')
+                    .limit(50);
+  this.getDocumentsInQuery(query, render);
+};
+
+TeamBuilder.prototype.getIdea = function(id) {
+  return firebase.firestore().collection('ideas').doc(id).get();
+};
+
+TeamBuilder.prototype.getFilteredIdeas = function(filters, render) {
+  let query = firebase.firestore().collection('ideas');
+
+  if (filters.active !== false) {
+    filters.active = true;
+  }
+
+  if (filters.category !== 'Any') {
+    for (let skill of filters.skills) {
+      query = query.where('skills', '==', skill);
+    }
+  }
+
+  if (filters.active === true) {
+    query = query.where("active", '==', true);
+  }
+
+  if (filters.sort === 'Rating') {
+    query = query.orderBy('avgRating', 'desc');
+  } else {
+    query = query.orderBy('addedTime', 'desc').orderBy('name', 'asc');
+  }
+
+  this.getDocumentsInQuery(query, render);
+};
+
