@@ -23,7 +23,7 @@ TeamBuilder.prototype.initTemplates = function() {
 };
 
 TeamBuilder.prototype.viewHome = function() {
-  this.getAllpersons();
+  this.getAllPersons();
 };
 
 TeamBuilder.prototype.viewIdeas = function() {
@@ -95,14 +95,12 @@ TeamBuilder.prototype.viewList = function(filters, filter_description) {
   };
 
   if (filters.city || filters.category || filters.price || filters.sort !== 'Rating' ) {
-    this.getFilteredpersons({
+    this.getFilteredIdeas({
      city: filters.city || 'Any',
-     category: filters.category || 'Any',
-     price: filters.price || 'Any',
      sort: filters.sort 
     }, renderResults);
   } else {
-    this.getAllpersons(renderResults);
+    this.getAllIdeas(renderResults);
   }
 
   const toolbar = mdc.toolbar.MDCToolbar.attachTo(document.querySelector('.mdc-toolbar'));
@@ -117,25 +115,25 @@ TeamBuilder.prototype.viewSetup = function() {
   });
 
   const config = this.getFirebaseConfig();
-  const nopersonsEl = this.renderTemplate('no-persons', config);
+  const noPersonsEl = this.renderTemplate('no-persons', config);
 
-  const button = nopersonsEl.querySelector('#add_mock_data');
+  const addMockData = noPersonsEl.querySelector('#add_mock_data');
   let addingMockData = false;
 
-  button.addEventListener('click', event => {
+  addMockData.addEventListener('click', event => {
     if (addingMockData) return;
     addingMockData = true;
 
     event.target.style.opacity = '0.4';
     event.target.innerText = 'Please wait...';
 
-    this.addMockpersons().then(() => {
+    this.addMockPersons().then(() => {
       this.rerender();
     });
   });
 
   this.replaceElement(document.querySelector('.header'), headerEl);
-  this.replaceElement(document.querySelector('main'), nopersonsEl);
+  this.replaceElement(document.querySelector('main'), noPersonsEl);
 
   firebase
   .firestore()
@@ -148,44 +146,44 @@ TeamBuilder.prototype.viewSetup = function() {
   });
 };
 
-TeamBuilder.prototype.initReviewDialog = function() {
-  const dialog = document.querySelector('#dialog-add-review');
-  this.dialogs.add_review = new mdc.dialog.MDCDialog(dialog);
+// TeamBuilder.prototype.initReviewDialog = function() {
+//   const dialog = document.querySelector('#dialog-add-review');
+//   this.dialogs.add_review = new mdc.dialog.MDCDialog(dialog);
 
-  this.dialogs.add_review.listen('MDCDialog:accept', () => {
-    let pathname = this.getCleanPath(document.location.pathname);
-    let id = pathname.split('/')[2];
+//   this.dialogs.add_review.listen('MDCDialog:accept', () => {
+//     let pathname = this.getCleanPath(document.location.pathname);
+//     let id = pathname.split('/')[2];
 
-    this.addRating(id, {
-      rating,
-      text: dialog.querySelector('#text').value,
-      userName: 'Anonymous (Web)',
-      timestamp: new Date(),
-      userId: firebase.auth().currentUser.uid
-    }).then(() => {
-      this.rerender();
-    });
-  });
+//     this.addRating(id, {
+//       rating,
+//       text: dialog.querySelector('#text').value,
+//       userName: 'Anonymous (Web)',
+//       timestamp: new Date(),
+//       userId: firebase.auth().currentUser.uid
+//     }).then(() => {
+//       this.rerender();
+//     });
+//   });
 
-  let rating = 0;
+//   let rating = 0;
 
-  dialog.querySelectorAll('.star-input i').forEach(el => {
-    const rate = () => {
-      let after = false;
-      rating = 0;
-      [].slice.call(el.parentNode.children).forEach(child => {
-        if (!after) {
-          rating++;
-          child.innerText = 'star';
-        } else {
-          child.innerText = 'star_border';
-        }
-        after = after || child.isSameNode(el);
-      });
-    };
-    el.addEventListener('mouseover', rate);
-  });
-};
+//   dialog.querySelectorAll('.star-input i').forEach(el => {
+//     const rate = () => {
+//       let after = false;
+//       rating = 0;
+//       [].slice.call(el.parentNode.children).forEach(child => {
+//         if (!after) {
+//           rating++;
+//           child.innerText = 'star';
+//         } else {
+//           child.innerText = 'star_border';
+//         }
+//         after = after || child.isSameNode(el);
+//       });
+//     };
+//     el.addEventListener('mouseover', rate);
+//   });
+// };
 
 TeamBuilder.prototype.initFilterDialog = function() {
   // TODO: Reset filter dialog to init state on close.
@@ -259,11 +257,11 @@ TeamBuilder.prototype.initFilterDialog = function() {
 TeamBuilder.prototype.updateQuery = function(filters) {
   let query_description = '';
 
-  if (filters.category !== '') {
-    query_description += `${filters.category} places`;
-  } else {
-    query_description += 'any person';
-  }
+  // if (filters.category !== '') {
+  //   query_description += `${filters.category} places`;
+  // } else {
+  //   query_description += 'any person';
+  // }
 
   if (filters.city !== '') {
     query_description += ` in ${filters.city}`;
@@ -271,24 +269,24 @@ TeamBuilder.prototype.updateQuery = function(filters) {
     query_description += ' located anywhere';
   }
 
-  if (filters.price !== '') {
-    query_description += ` with a price of ${filters.price}`;
-  } else {
-    query_description += ' with any price';
-  }
+  // if (filters.price !== '') {
+  //   query_description += ` with a price of ${filters.price}`;
+  // } else {
+  //   query_description += ' with any price';
+  // }
 
   if (filters.sort === 'Rating') {
     query_description += ' sorted by rating';
-  } else if (filters.sort === 'Reviews') {
-    query_description += ' sorted by # of reviews';
+  } else{
+    query_description += ' sorted by time';
   }
 
   this.viewList(filters, query_description);
 };
 
-TeamBuilder.prototype.viewpersons = function(id) {
+TeamBuilder.prototype.viewPerson = function(id) {
   let sectionHeaderEl;
-  return this.getperson(id)
+  return this.getPerson(id)
     .then(doc => {
       const data = doc.data();
       const dialog =  this.dialogs.add_review;
@@ -468,28 +466,6 @@ TeamBuilder.prototype.getDeepItem = function(obj, path) {
     obj = obj[chunk];
   });
   return obj;
-};
-
-TeamBuilder.prototype.renderRating = function(rating) {
-  const el = this.renderTemplate('rating', {});
-  for (let r = 0; r < 5; r += 1) {
-    let star;
-    if (r < Math.floor(rating)) {
-      star = this.renderTemplate('star-icon', {});
-    } else {
-      star = this.renderTemplate('star-border-icon', {});
-    }
-    el.append(star);
-  }
-  return el;
-};
-
-TeamBuilder.prototype.renderPrice = function(price) {
-  const el = this.renderTemplate('price', {});
-  for (let r = 0; r < price; r += 1) {
-    el.append('$');
-  }
-  return el;
 };
 
 TeamBuilder.prototype.replaceElement = function(parent, content) {
